@@ -1,0 +1,5 @@
+# GitHub language detection
+# This repo is primarily Markdown content (skills, docs, guides).
+# Override detection so GitHub shows Markdown instead of HTML.
+*.md linguist-detectable
+*.html linguist-documentation

@@ -1,0 +1,21 @@
+{
+  "name": "clawenable",
+  "owner": {
+    "name": "ClawEnable"
+  },
+  "metadata": {
+    "description": "Help AI agents produce high-quality standalone single-file HTML artifacts with proper judgment, quality constraints, and review capability",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "html-artifact-guide",
+      "description": "Produces, reviews, and improves standalone single-file HTML artifacts using vanilla HTML, inline CSS, and vanilla JS — no frameworks or CDN",
+      "source": "./",
+      "version": "1.0.0",
+      "category": "development",
+      "keywords": ["html", "artifact", "best-practices", "review", "dashboard"],
+      "license": "Apache-2.0"
+    }
+  ]
+}
