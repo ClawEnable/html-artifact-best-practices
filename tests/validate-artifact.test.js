@@ -31,8 +31,8 @@ test('fails an artifact with missing metadata and external dependencies', () => 
   assert.match(output, /Missing charset/i);
   assert.match(output, /Missing viewport/i);
   assert.match(output, /Empty title/i);
-  assert.match(output, /External stylesheet/i);
-  assert.match(output, /External script/i);
+  assert.match(output, /Stylesheet link is not allowed/i);
+  assert.match(output, /Script src is not allowed/i);
   assert.match(output, /External image/i);
   assert.match(output, /Missing AI disclaimer/i);
   assert.match(output, /Missing print stylesheet/i);
@@ -67,7 +67,7 @@ test('fails external dependencies in unquoted HTML attributes', () => {
     </body>
     </html>`);
 
-  assert.match(failures.join('\n'), /External script/i);
+  assert.match(failures.join('\n'), /Script src is not allowed/i);
 });
 
 test('fails external URLs inside inline CSS', () => {
@@ -91,4 +91,51 @@ test('fails external URLs inside inline CSS', () => {
     </html>`);
 
   assert.match(failures.join('\n'), /External CSS URL/i);
+});
+
+test('fails local stylesheet links and local script src attributes', () => {
+  const { validateHtml } = require('../scripts/validate-artifact.js');
+  const failures = validateHtml(`<!doctype html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Local Dependencies</title>
+      <link rel="stylesheet" href="./artifact.css">
+      <style>:focus-visible {} @media print {}</style>
+    </head>
+    <body>
+      <main><h1>Example</h1></main>
+      <footer><p>AI-generated. Verify critical decisions independently.</p></footer>
+      <script src="./artifact.js"></script>
+    </body>
+    </html>`);
+
+  const output = failures.join('\n');
+  assert.match(output, /Stylesheet link is not allowed/i);
+  assert.match(output, /Script src is not allowed/i);
+});
+
+test('fails multiple style or script blocks', () => {
+  const { validateHtml } = require('../scripts/validate-artifact.js');
+  const failures = validateHtml(`<!doctype html>
+    <html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Multiple Blocks</title>
+      <style>:focus-visible {}</style>
+      <style>@media print {}</style>
+    </head>
+    <body>
+      <main><h1>Example</h1></main>
+      <footer><p>AI-generated. Verify critical decisions independently.</p></footer>
+      <script>document.body.dataset.one = 'true';</script>
+      <script>document.body.dataset.two = 'true';</script>
+    </body>
+    </html>`);
+
+  const output = failures.join('\n');
+  assert.match(output, /Multiple style blocks/i);
+  assert.match(output, /Multiple script blocks/i);
 });

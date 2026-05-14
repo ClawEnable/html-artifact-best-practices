@@ -26,18 +26,34 @@
 **Claude Code:**
 ```bash
 /plugin marketplace add ClawEnable/html-artifact-best-practices
-/plugin install html-artifact-guide
+/plugin install html-artifact-guide@clawenable
 ```
 
-**Any agent (npx):**
+**Agent Skills CLI:**
 ```bash
-npx skills add ClawEnable/html-artifact-best-practices#v1.0.1
+npx skills add ClawEnable/html-artifact-best-practices
 ```
 
 **Then try:**
 > "Create a comparison matrix for these 3 database options — I need to evaluate performance, cost, and ecosystem support with collapsible details"
 
 The agent judges whether HTML adds value over Markdown, picks the right pattern, and generates a standalone `.html` file.
+
+## Usage
+
+Create a new artifact:
+> "Create a comparison matrix for these database options and save it as database-comparison.html."
+
+Review an existing artifact:
+> "Review this HTML artifact against the html-artifact-guide checklist."
+
+Improve an artifact:
+> "Improve this artifact for mobile readability, print output, and copyability."
+
+Use Markdown when HTML is unnecessary:
+> "Summarize these meeting notes. Use Markdown unless HTML adds clear review value."
+
+Generated artifacts should be standalone `.html` files with inline CSS, vanilla JS, no CDN, and the AI verification disclaimer.
 
 ## What It Does
 
@@ -85,18 +101,22 @@ Simple documentation, knowledge base articles, meeting minutes — anything Mark
 
 ## Install
 
+Verified installation paths are Claude Code and Codex CLI. Other Agent Skills-compatible environments may work, but they are not currently verified by this repository.
+
 <details>
 <summary><strong>Claude Code</strong> — Marketplace</summary>
 
 ```bash
 /plugin marketplace add ClawEnable/html-artifact-best-practices
-/plugin install html-artifact-guide
+/plugin install html-artifact-guide@clawenable
 ```
 
 </details>
 
 <details>
 <summary><strong>Claude Code</strong> — Plugin Dir (dev)</summary>
+
+Loads this checkout for the current Claude Code session only:
 
 ```bash
 claude --plugin-dir /path/to/html-artifact-best-practices
@@ -107,25 +127,19 @@ claude --plugin-dir /path/to/html-artifact-best-practices
 <details>
 <summary><strong>Codex CLI</strong> (OpenAI)</summary>
 
-Recommended project-level install from your target project root:
+Run from the project where you want to use the skill:
 
 ```bash
-npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -a codex -s html-artifact-guide -y --copy
+npx skills add ClawEnable/html-artifact-best-practices
 ```
 
-Global install for all Codex projects:
-
-```bash
-npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -a codex -g -s html-artifact-guide -y --copy
-```
-
-Codex-native install from inside a Codex session:
+Codex in-session install, if `$skill-installer` is available:
 
 ```text
-$skill-installer install https://github.com/ClawEnable/html-artifact-best-practices/tree/v1.0.1/skills/html-artifact-guide
+$skill-installer install https://github.com/ClawEnable/html-artifact-best-practices/tree/v1.0.2/skills/html-artifact-guide
 ```
 
-Manual fallback:
+Manual fallback from a cloned checkout:
 
 ```bash
 mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills/html-artifact-guide"
@@ -138,86 +152,14 @@ Restart Codex or start a new session after installing or updating. To verify dis
 codex debug prompt-input "Create a comparison matrix as an HTML artifact" | rg "html-artifact-guide"
 ```
 
-For updates, rerun `npx skills add` with the new tag, or use `npx skills update html-artifact-guide` for npx-managed installs.
+For updates, rerun `npx skills add ClawEnable/html-artifact-best-practices`, or use `npx skills update html-artifact-guide` for npx-managed installs.
 
 </details>
 
 <details>
-<summary><strong>Gemini CLI</strong></summary>
+<summary><strong>Other agents</strong> — unverified</summary>
 
-```bash
-gemini skills install https://github.com/ClawEnable/html-artifact-best-practices
-
-# Workspace scope only
-gemini skills install https://github.com/ClawEnable/html-artifact-best-practices --scope workspace
-```
-
-</details>
-
-<details>
-<summary><strong>Cursor</strong></summary>
-
-```bash
-# Project-level
-mkdir -p .cursor/skills/html-artifact-guide
-cp -r skills/html-artifact-guide/* .cursor/skills/html-artifact-guide/
-
-# Or use "Import Agent Skills" in Settings > Rules and Commands
-```
-
-</details>
-
-<details>
-<summary><strong>OpenClaw</strong></summary>
-
-```bash
-# Via CLI
-openclaw skills add /path/to/html-artifact-best-practices/skills/html-artifact-guide
-
-# Or manually
-mkdir -p ~/.openclaw/workspace/skills/html-artifact-guide
-cp -r skills/html-artifact-guide/* ~/.openclaw/workspace/skills/html-artifact-guide/
-```
-
-</details>
-
-<details>
-<summary><strong>Hermes</strong></summary>
-
-```bash
-# Global
-mkdir -p ~/.hermes/skills/html-artifact-guide
-cp -r skills/html-artifact-guide/* ~/.hermes/skills/html-artifact-guide/
-
-# Project-level (run from YOUR project root)
-mkdir -p skills/html-artifact-guide
-cp -r /path/to/html-artifact-best-practices/skills/html-artifact-guide/* skills/html-artifact-guide/
-
-hermes reload
-```
-
-</details>
-
-<details>
-<summary><strong>Cross-Agent</strong> (npx skills add)</summary>
-
-Works with Claude Code, Codex, Cursor, Copilot, and other agent CLIs.
-
-```bash
-npx skills add ClawEnable/html-artifact-best-practices#v1.0.1        # current project
-npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -g      # global
-npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -a codex -s html-artifact-guide  # specific agent and skill
-```
-
-</details>
-
-<details>
-<summary><strong>Manual</strong></summary>
-
-```bash
-git clone https://github.com/ClawEnable/html-artifact-best-practices.git \
-  ~/.claude/skills/html-artifact-best-practices
-```
+The distributable skill is `skills/html-artifact-guide/`. Agent environments that support the Agent Skills directory format may be able to import that folder, but this repository currently verifies only Claude Code and Codex CLI installation paths.
 
 </details>
 

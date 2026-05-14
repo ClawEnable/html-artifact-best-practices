@@ -42,6 +42,19 @@ function checkCssUrls(html, failures) {
   }
 }
 
+function checkInlineBlocks(html, failures) {
+  const styleBlocks = html.match(/<style\b[^>]*>[\s\S]*?<\/style>/gi) || [];
+  const scriptBlocks = html.match(/<script\b[^>]*>[\s\S]*?<\/script>/gi) || [];
+
+  if (styleBlocks.length > 1) {
+    failures.push(`Multiple style blocks: ${styleBlocks.length}`);
+  }
+
+  if (scriptBlocks.length > 1) {
+    failures.push(`Multiple script blocks: ${scriptBlocks.length}`);
+  }
+}
+
 function validateHtml(html) {
   const failures = [];
 
@@ -66,16 +79,16 @@ function validateHtml(html) {
   for (const tag of linkTags) {
     const rel = getAttribute(tag, 'rel').toLowerCase();
     const href = getAttribute(tag, 'href');
-    if (rel.includes('stylesheet') && hasExternalUrl(href)) {
-      failures.push(`External stylesheet: ${href}`);
+    if (rel.includes('stylesheet')) {
+      failures.push(`Stylesheet link is not allowed: ${href || '(missing href)'}`);
     }
   }
 
   const scriptTags = html.match(/<script\b[^>]*>/gi) || [];
   for (const tag of scriptTags) {
     const src = getAttribute(tag, 'src');
-    if (src && hasExternalUrl(src)) {
-      failures.push(`External script: ${src}`);
+    if (src) {
+      failures.push(`Script src is not allowed: ${src}`);
     }
   }
 
@@ -105,6 +118,7 @@ function validateHtml(html) {
 
   checkFixedWidths(html, failures);
   checkCssUrls(html, failures);
+  checkInlineBlocks(html, failures);
 
   return failures;
 }

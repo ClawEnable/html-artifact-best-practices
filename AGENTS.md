@@ -2,27 +2,28 @@
 
 ## Project Structure & Module Organization
 
-This is a content-only Agent Skill package for standalone HTML artifacts. The distributable skill lives in `skills/html-artifact-guide/`:
+This repository is a content-only Agent Skill package for standalone HTML artifacts. The distributable skill lives in `skills/html-artifact-guide/`.
 
-- `SKILL.md` defines trigger behavior, output requirements, workflows, and anti-patterns.
-- `references/` contains deeper guidance such as artifact patterns and the review checklist.
-- `assets/standalone-template.html` is the baseline single-file HTML template.
-- `evals/trigger-scenarios.md` documents manual trigger test cases.
-
-Supporting files include localized READMEs, `CONTRIBUTING.md`, `docs/design-rationale.md`, and `.claude-plugin/` metadata.
+- `skills/html-artifact-guide/SKILL.md` defines triggers, workflows, output requirements, and anti-patterns.
+- `skills/html-artifact-guide/references/` contains deeper guidance, including artifact patterns and the review checklist.
+- `skills/html-artifact-guide/assets/standalone-template.html` is the baseline single-file HTML template.
+- `skills/html-artifact-guide/evals/trigger-scenarios.md` documents manual trigger scenarios.
+- `scripts/validate-artifact.js` and `tests/validate-artifact.test.js` cover the validator.
+- `docs/design-rationale.md`, localized READMEs, and `CONTRIBUTING.md` support distribution and contribution context.
 
 ## Build, Test, and Development Commands
 
-There is no app build chain, install step, or runtime service. The release gate is:
+There is no app build chain, install step, or runtime service. Use these checks before submitting changes:
 
-- `node --test tests/validate-artifact.test.js` runs the validator test suite.
-- `node scripts/validate-artifact.js skills/html-artifact-guide/assets/standalone-template.html tests/fixtures/valid-artifact.html` checks the baseline template and valid fixture.
-- `! rg "Replace with|<title></title>" skills/html-artifact-guide/assets tests/fixtures/valid-artifact.html` checks that template placeholders are absent.
-- `test "$(rg -c "expected_action" skills/html-artifact-guide/evals/trigger-scenarios.md)" -ge 20` checks trigger eval coverage.
-- `git diff --check` catches whitespace errors.
-- Review `SKILL.md` and `evals/trigger-scenarios.md` when changing trigger language or the output contract.
+```bash
+node --test tests/validate-artifact.test.js
+node scripts/validate-artifact.js skills/html-artifact-guide/assets/standalone-template.html tests/fixtures/valid-artifact.html
+! rg "Replace with|<title></title>" skills/html-artifact-guide/assets tests/fixtures/valid-artifact.html
+test "$(rg -c "expected_action" skills/html-artifact-guide/evals/trigger-scenarios.md)" -ge 20
+git diff --check
+```
 
-For local installation testing, copy the skill directory, for example `cp -r skills/html-artifact-guide/* ~/.codex/skills/html-artifact-guide/`.
+For local installation testing, copy the skill contents with `cp -r skills/html-artifact-guide/* ~/.codex/skills/html-artifact-guide/`.
 
 ## Coding Style & Naming Conventions
 
@@ -30,11 +31,7 @@ Most source files are Markdown. Use concise headings, direct instructions, and c
 
 ## Testing Guidelines
 
-Automated tests cover the validator; trigger behavior and content quality are reviewed manually. Before submitting content changes, verify:
-
-- Skill instructions still satisfy the output contract in `SKILL.md`.
-- Trigger changes match the should-trigger, should-not-trigger, and boundary cases in `evals/trigger-scenarios.md`.
-- Artifact guidance remains offline, copyable, responsive, accessible, and print-aware.
+Automated tests cover the validator with Node's built-in test runner. Manual review covers trigger behavior and content quality. When changing trigger language or the output contract, review `SKILL.md`, `evals/trigger-scenarios.md`, the template, the review checklist, and the validator for drift.
 
 ## Commit & Pull Request Guidelines
 
@@ -44,4 +41,4 @@ Pull requests should explain what changed, why it changed, and which checks were
 
 ## Agent-Specific Instructions
 
-Do not add new top-level files or restructure `skills/html-artifact-guide/` without a clear reason. Preserve the project’s core constraints: no placeholders, no frameworks, no CDN dependencies, and actionable guidance over abstract advice. If `SKILL.md` changes the output contract, update the template, review checklist, trigger evals, and validator when applicable.
+Do not restructure `skills/html-artifact-guide/` without a clear reason. Preserve the core constraints: no placeholders, no frameworks, no CDN dependencies, and actionable guidance over abstract advice. If `SKILL.md` changes the output contract, check the template, review checklist, trigger evals, validator, and tests for drift.

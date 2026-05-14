@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is an **Agent Skill** (not a traditional software project). It provides procedural instructions that help AI agents produce high-quality standalone single-file HTML artifacts. The entire project is Markdown and HTML content — no build chain, no runtime, no dependencies, no tests.
+This is an **Agent Skill** (not a traditional software project). It provides procedural instructions that help AI agents produce high-quality standalone single-file HTML artifacts. The project has no app build chain, runtime service, or package install step. It does include a zero-dependency Node.js validator and tests for the validator.
 
 The skill follows the [Agent Skills specification](https://agentskills.io/specification) and uses progressive disclosure: `plugin.json` metadata → `SKILL.md` instructions → `references/` detail on demand.
 
@@ -22,11 +22,21 @@ The skill follows the [Agent Skills specification](https://agentskills.io/specif
 
 ## Development Commands
 
-No build, test, or lint commands exist. The project is content-only. Validation is manual:
+Run these checks before opening a pull request or cutting a release:
 
-- Review SKILL.md against the output contract and anti-pattern list
-- Run trigger scenarios from `evals/trigger-scenarios.md` to verify skill trigger behavior
-- Use `references/review-checklist.md` to audit any generated HTML artifact
+```bash
+node --test tests/validate-artifact.test.js
+node scripts/validate-artifact.js skills/html-artifact-guide/assets/standalone-template.html tests/fixtures/valid-artifact.html
+! rg "Replace with|<title></title>" skills/html-artifact-guide/assets tests/fixtures/valid-artifact.html
+test "$(rg -c "expected_action" skills/html-artifact-guide/evals/trigger-scenarios.md)" -ge 20
+git diff --check
+```
+
+Trigger behavior and content quality still require manual review:
+
+- Review `SKILL.md` against the output contract and anti-pattern list
+- Run trigger scenarios from `evals/trigger-scenarios.md` when changing trigger language
+- Use `references/review-checklist.md` to audit generated HTML artifacts
 
 ## Content Standards
 

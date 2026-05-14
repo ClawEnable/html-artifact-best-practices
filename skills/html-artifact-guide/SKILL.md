@@ -1,6 +1,6 @@
 ---
 name: html-artifact-guide
-description: Produces, reviews, and improves standalone single-file HTML artifacts using vanilla HTML, inline CSS, and vanilla JS — no frameworks or CDN. Use this skill when the user asks to "create a comparison matrix", "build an interactive dashboard", "make a timeline roadmap", "generate an HTML artifact", "review this HTML", "create a review surface", "make a visual explainer", or "create an interactive checklist". Do not use for simple documentation, knowledge base articles, meeting minutes, or any content where Markdown suffices.
+description: Use when creating, reviewing, or improving standalone single-file HTML artifacts for comparison matrices, dashboards, timelines, review surfaces, visual explainers, research synthesis, or interactive checklists. Do not use for simple documentation, meeting notes, knowledge base articles, or content where Markdown suffices.
 license: Apache-2.0
 ---
 
