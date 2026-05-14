@@ -31,7 +31,7 @@
 
 **任意の Agent（npx）：**
 ```bash
-npx skills add ClawEnable/html-artifact-best-practices
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1
 ```
 
 **試してみる：**
@@ -107,14 +107,38 @@ claude --plugin-dir /path/to/html-artifact-best-practices
 <details>
 <summary><strong>Codex CLI</strong>（OpenAI）</summary>
 
-```bash
-# skills を有効化（初回のみ）
-codex --enable skills
+対象プロジェクトのルートから、プロジェクトレベルでインストールする推奨方法：
 
-# 手動インストール
-mkdir -p ~/.codex/skills/html-artifact-guide
-cp -r skills/html-artifact-guide/* ~/.codex/skills/html-artifact-guide/
+```bash
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -a codex -s html-artifact-guide -y --copy
 ```
+
+すべての Codex プロジェクトで使うグローバルインストール：
+
+```bash
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -a codex -g -s html-artifact-guide -y --copy
+```
+
+Codex セッション内でネイティブインストーラを使う場合：
+
+```text
+$skill-installer install https://github.com/ClawEnable/html-artifact-best-practices/tree/v1.0.1/skills/html-artifact-guide
+```
+
+手動 fallback：
+
+```bash
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills/html-artifact-guide"
+cp -R skills/html-artifact-guide/. "${CODEX_HOME:-$HOME/.codex}/skills/html-artifact-guide/"
+```
+
+インストールまたは更新後は、Codex を再起動するか新しいセッションを開始してください。認識確認：
+
+```bash
+codex debug prompt-input "Create a comparison matrix as an HTML artifact" | rg "html-artifact-guide"
+```
+
+更新時は、新しい tag で `npx skills add` を再実行するか、npx 管理のインストールに対して `npx skills update html-artifact-guide` を実行します。
 
 </details>
 
@@ -180,9 +204,9 @@ hermes reload
 Claude Code、Codex、Cursor、Copilot その他の Agent CLI に対応。
 
 ```bash
-npx skills add ClawEnable/html-artifact-best-practices        # 現在のプロジェクト
-npx skills add ClawEnable/html-artifact-best-practices -g      # グローバル
-npx skills add ClawEnable/html-artifact-best-practices -a claude-code  # 特定の Agent
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1        # 現在のプロジェクト
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -g      # グローバル
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -a codex -s html-artifact-guide  # 特定の Agent と skill
 ```
 
 </details>

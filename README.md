@@ -31,7 +31,7 @@
 
 **Any agent (npx):**
 ```bash
-npx skills add ClawEnable/html-artifact-best-practices
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1
 ```
 
 **Then try:**
@@ -107,14 +107,38 @@ claude --plugin-dir /path/to/html-artifact-best-practices
 <details>
 <summary><strong>Codex CLI</strong> (OpenAI)</summary>
 
-```bash
-# Enable skills (first time only)
-codex --enable skills
+Recommended project-level install from your target project root:
 
-# Install manually
-mkdir -p ~/.codex/skills/html-artifact-guide
-cp -r skills/html-artifact-guide/* ~/.codex/skills/html-artifact-guide/
+```bash
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -a codex -s html-artifact-guide -y --copy
 ```
+
+Global install for all Codex projects:
+
+```bash
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -a codex -g -s html-artifact-guide -y --copy
+```
+
+Codex-native install from inside a Codex session:
+
+```text
+$skill-installer install https://github.com/ClawEnable/html-artifact-best-practices/tree/v1.0.1/skills/html-artifact-guide
+```
+
+Manual fallback:
+
+```bash
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills/html-artifact-guide"
+cp -R skills/html-artifact-guide/. "${CODEX_HOME:-$HOME/.codex}/skills/html-artifact-guide/"
+```
+
+Restart Codex or start a new session after installing or updating. To verify discovery:
+
+```bash
+codex debug prompt-input "Create a comparison matrix as an HTML artifact" | rg "html-artifact-guide"
+```
+
+For updates, rerun `npx skills add` with the new tag, or use `npx skills update html-artifact-guide` for npx-managed installs.
 
 </details>
 
@@ -180,9 +204,9 @@ hermes reload
 Works with Claude Code, Codex, Cursor, Copilot, and other agent CLIs.
 
 ```bash
-npx skills add ClawEnable/html-artifact-best-practices        # current project
-npx skills add ClawEnable/html-artifact-best-practices -g      # global
-npx skills add ClawEnable/html-artifact-best-practices -a claude-code  # specific agent
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1        # current project
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -g      # global
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -a codex -s html-artifact-guide  # specific agent and skill
 ```
 
 </details>

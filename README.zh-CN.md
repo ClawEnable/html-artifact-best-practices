@@ -31,7 +31,7 @@
 
 **任意 Agent（npx）：**
 ```bash
-npx skills add ClawEnable/html-artifact-best-practices
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1
 ```
 
 **然后尝试：**
@@ -107,14 +107,38 @@ claude --plugin-dir /path/to/html-artifact-best-practices
 <details>
 <summary><strong>Codex CLI</strong>（OpenAI）</summary>
 
-```bash
-# 启用 skills（仅首次）
-codex --enable skills
+推荐从目标项目根目录进行项目级安装：
 
-# 手动安装
-mkdir -p ~/.codex/skills/html-artifact-guide
-cp -r skills/html-artifact-guide/* ~/.codex/skills/html-artifact-guide/
+```bash
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -a codex -s html-artifact-guide -y --copy
 ```
+
+全局安装，供所有 Codex 项目使用：
+
+```bash
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -a codex -g -s html-artifact-guide -y --copy
+```
+
+在 Codex 会话内使用原生安装器：
+
+```text
+$skill-installer install https://github.com/ClawEnable/html-artifact-best-practices/tree/v1.0.1/skills/html-artifact-guide
+```
+
+手动 fallback：
+
+```bash
+mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills/html-artifact-guide"
+cp -R skills/html-artifact-guide/. "${CODEX_HOME:-$HOME/.codex}/skills/html-artifact-guide/"
+```
+
+安装或更新后，重启 Codex 或开启新会话。验证是否被识别：
+
+```bash
+codex debug prompt-input "Create a comparison matrix as an HTML artifact" | rg "html-artifact-guide"
+```
+
+更新时，使用新 tag 重新执行 `npx skills add`，或对 npx 管理的安装执行 `npx skills update html-artifact-guide`。
 
 </details>
 
@@ -180,9 +204,9 @@ hermes reload
 支持 Claude Code、Codex、Cursor、Copilot 及其他 Agent CLI。
 
 ```bash
-npx skills add ClawEnable/html-artifact-best-practices        # 当前项目
-npx skills add ClawEnable/html-artifact-best-practices -g      # 全局
-npx skills add ClawEnable/html-artifact-best-practices -a claude-code  # 指定 Agent
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1        # 当前项目
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -g      # 全局
+npx skills add ClawEnable/html-artifact-best-practices#v1.0.1 -a codex -s html-artifact-guide  # 指定 Agent 和 skill
 ```
 
 </details>
