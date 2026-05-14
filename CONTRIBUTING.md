@@ -19,6 +19,20 @@ Contributions are welcome. This project follows a few conventions to keep things
    - `refactor:` restructure without changing meaning
 5. Open a pull request with a clear description of what changed and why
 
+## Validation & Release Gate
+
+Run these checks before opening a pull request or cutting a release:
+
+```bash
+node --test tests/validate-artifact.test.js
+node scripts/validate-artifact.js skills/html-artifact-guide/assets/standalone-template.html tests/fixtures/valid-artifact.html
+! rg "Replace with|<title></title>" skills/html-artifact-guide/assets tests/fixtures/valid-artifact.html
+test "$(rg -c "expected_action" skills/html-artifact-guide/evals/trigger-scenarios.md)" -ge 20
+git diff --check
+```
+
+Use `node scripts/validate-artifact.js path/to/artifact.html` when adding or changing example artifacts. The validator checks the standalone HTML contract: required metadata, no external dependencies, copyability, focus styles, print styles, and common mobile layout risks.
+
 ## Content Standards
 
 All skill content (SKILL.md, references, evals) is Markdown. Follow these rules:
@@ -38,9 +52,27 @@ Pull requests are evaluated against:
 3. **Consistency** — Does the change match existing style, tone, and terminology?
 4. **Completeness** — Every claim has substance, no placeholders or vague instructions.
 
+## Synchronization Rules
+
+When changing the output contract in `skills/html-artifact-guide/SKILL.md`, also check whether these files need updates:
+
+- `skills/html-artifact-guide/assets/standalone-template.html`
+- `skills/html-artifact-guide/references/review-checklist.md`
+- `skills/html-artifact-guide/evals/trigger-scenarios.md`
+- `scripts/validate-artifact.js`
+- `tests/validate-artifact.test.js`
+
+When changing installation, positioning, or core constraints in `README.md`, review `README.zh-CN.md` and `README.ja.md` for drift.
+
 ## File Structure
 
 ```
+AGENTS.md                              # Agent-facing contributor guide
+CONTRIBUTING.md                        # Human contributor guide
+docs/
+└── design-rationale.md                # Design decisions and industry context
+scripts/
+└── validate-artifact.js               # Zero-dependency HTML artifact validator
 skills/html-artifact-guide/
 ├── SKILL.md                         # Core skill definition
 ├── references/
@@ -50,6 +82,9 @@ skills/html-artifact-guide/
 │   └── standalone-template.html     # HTML template baseline
 └── evals/
     └── trigger-scenarios.md         # Trigger test scenarios
+tests/
+├── validate-artifact.test.js          # Validator test suite
+└── fixtures/                          # Valid and invalid validator fixtures
 ```
 
-Do not add files outside this structure without discussion first.
+Do not add distributable skill files outside `skills/html-artifact-guide/` without discussion first. Validation scripts, tests, contributor docs, and design notes may live at the repository root when they support the skill package.

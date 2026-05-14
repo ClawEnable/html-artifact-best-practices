@@ -3,18 +3,155 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Replace with page title -->
-  <title></title>
+  <title>Standalone HTML Artifact</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      color-scheme: light;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      color: #111827;
+      background: #f9fafb;
+    }
+
+    main {
+      width: min(100% - 2rem, 72rem);
+      margin: 0 auto;
+      padding: 2rem 0;
+    }
+
+    section,
+    article,
+    details {
+      margin-block: 1rem;
+    }
+
+    h1,
+    h2,
+    h3 {
+      line-height: 1.2;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 0.625rem;
+      border: 1px solid #d1d5db;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    button,
+    summary {
+      cursor: pointer;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    input:focus-visible,
+    select:focus-visible,
+    textarea:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid #2563eb;
+      outline-offset: 3px;
+    }
+
+    footer {
+      width: min(100% - 2rem, 72rem);
+      margin: 2rem auto;
+      color: #4b5563;
+      font-size: 0.875rem;
+    }
+
+    @media (max-width: 480px) {
+      main {
+        width: min(100% - 1rem, 72rem);
+        padding-block: 1rem;
+      }
+
+      th,
+      td {
+        padding: 0.5rem;
+      }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+      }
+
+      main,
+      footer {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        overflow: visible;
+      }
+
+      button,
+      nav,
+      .controls {
+        display: none;
+      }
+
+      details {
+        display: block;
+      }
+
+      details > * {
+        display: block;
+      }
+
+      section,
+      article,
+      details,
+      table {
+        break-inside: avoid;
+      }
+    }
   </style>
 </head>
 <body>
   <main>
+    <h1>Standalone HTML Artifact</h1>
+    <section>
+      <h2>Summary</h2>
+      <p>Use this file as the structural baseline for a standalone HTML artifact.</p>
+    </section>
   </main>
   <footer>
     <p>AI-generated. Verify critical decisions independently.</p>
   </footer>
   <script>
+    const detailsOpenedForPrint = new WeakSet();
+
+    window.addEventListener('beforeprint', () => {
+      document.querySelectorAll('details:not([open])').forEach((details) => {
+        details.open = true;
+        detailsOpenedForPrint.add(details);
+      });
+    });
+
+    window.addEventListener('afterprint', () => {
+      document.querySelectorAll('details[open]').forEach((details) => {
+        if (detailsOpenedForPrint.has(details)) {
+          details.open = false;
+          detailsOpenedForPrint.delete(details);
+        }
+      });
+    });
   </script>
 </body>
 </html>

@@ -79,8 +79,9 @@ Simple documentation, knowledge base articles, meeting minutes — anything Mark
 - **SKILL.md** — Judgment rules, output contract, 10 anti-patterns, creation/review workflows
 - **8 Artifact Patterns** — Decision Brief, Comparison Matrix, Research Synthesis, Dashboard, Timeline, Interactive Checklist, Visual Explainer, Review Surface
 - **11-Dimension Review Checklist** — Content fidelity, information architecture, semantic HTML, responsive layout, accessibility, interaction quality, dependency policy, copyability, print readiness, visual emphasis, source-of-truth preservation
-- **Standalone Template** — Minimal HTML baseline for new artifacts
-- **Trigger Test Scenarios** — 5 should-trigger, 3 should-not-trigger, 3 boundary cases
+- **Validator-Passing Standalone Template** — Responsive, focus-visible, print-aware baseline for new artifacts
+- **Trigger Eval Scenarios** — 20 structured cases covering HTML generation, Markdown fallback, and clarification boundaries
+- **Artifact Validator** — Zero-dependency Node.js release gate for metadata, dependency policy, focus, print, copyability, and mobile-risk checks
 
 ## Install
 

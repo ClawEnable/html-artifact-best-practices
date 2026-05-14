@@ -1,6 +1,6 @@
 {
   "name": "clawenable",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Produces, reviews, and improves standalone single-file HTML artifacts using vanilla HTML, inline CSS, and vanilla JS — no frameworks or CDN. Use for: comparison matrices, interactive dashboards, timeline roadmaps, review surfaces, visual explainers.",
   "author": {
     "name": "ClawEnable"

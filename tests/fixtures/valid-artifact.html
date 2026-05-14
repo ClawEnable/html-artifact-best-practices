@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Valid Artifact</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+      line-height: 1.5;
+    }
+
+    main {
+      max-width: 72rem;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    button:focus-visible,
+    a:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid #1d4ed8;
+      outline-offset: 3px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    @media print {
+      button,
+      nav {
+        display: none;
+      }
+
+      body,
+      main {
+        overflow: visible;
+      }
+
+      section {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Valid Artifact</h1>
+    <section>
+      <h2>Summary</h2>
+      <p>This fixture contains the required structure for validation.</p>
+      <button type="button">Review</button>
+    </section>
+  </main>
+  <footer>
+    <p>AI-generated. Verify critical decisions independently.</p>
+  </footer>
+  <script>
+    document.querySelector('button').addEventListener('click', () => {
+      document.body.dataset.reviewed = 'true';
+    });
+  </script>
+</body>
+</html>
